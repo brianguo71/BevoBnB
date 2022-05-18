@@ -1,0 +1,77 @@
+﻿@model IEnumerable<fa21team9finalproject.Models.PropertyReview>
+
+@{
+    ViewData["Title"] = "Property Review Disputes";
+}
+
+<h1>Review Dispute Requests.</h1>
+<p>See all property reviews in dispute.</p>
+<hr />
+
+@using (Html.BeginForm("DetailsAdmin", "PropertyReviews", (FormMethod.Post)))
+{
+
+    <table class="table">
+        <thead>
+            @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() > 0)
+            {
+                <tr>
+                    <th>
+                        Property Address
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rating)
+                    </th>
+                    <th>
+                        Customer Comment
+                    </th>
+                    <th>
+                        Host Dispute
+                    </th>
+                    <th>Reject Dispute?</th>
+                    <th>Approve Dispute?</th>
+                </tr>
+            }
+
+        </thead>
+        <tbody>
+            @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() == 0)
+            {
+                <p>
+                    There are no reviews in dispute.
+                </p>
+            }
+            @foreach (var item in Model.Where(m => m.dStatus == disputeStatus.inDispute))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property.FullAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Review)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dispute)
+                    </td>
+                    <td>
+                        <input type="checkbox" name="IdstoReject" value="@item.PropertyReviewID" />
+                    </td>
+                    <td>
+                        <input type="checkbox" name="IdstoApprove" value="@item.PropertyReviewID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() > 0)
+    {
+<button type="submit" class="btn btn-primary mt-3 mb-5">Save</button>
+    }
+    
+}
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary mt-3">Back to Home</a>
+</div>

@@ -1,0 +1,44 @@
+﻿@model fa21team9finalproject.Models.PropertyReview
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Property Review.</h1>
+<p>You are editing your review for the property <strong class="text-info">@ViewBag.PropertyAddress</strong></p>
+<hr />
+
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PropertyReviewID" />
+            <input type="hidden" name="PropertyID" value="@ViewBag.PropertyID" />
+
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Review" class="control-label"></label>
+                <input asp-for="Review" class="form-control" />
+                <span asp-validation-for="Review" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-controller="PropertyReviews" class="btn btn-outline-primary mt-3">Back to Reviews</a>
+</div>
+

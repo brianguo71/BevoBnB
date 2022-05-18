@@ -1,0 +1,102 @@
+﻿@model fa21team9finalproject.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Reservation Details.</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order.OrderNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order.OrderNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Property.FullAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Property.FullAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckInDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CheckInDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CheckOutDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CheckOutDate)
+        </dd>
+        <dt class="col-sm-2">
+            Total Length of Reservation in Days
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalStayDays)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfGuests)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfGuests)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CleaningFee)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CleaningFee)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Subtotal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subtotal)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReservationTotal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReservationTotal)
+        </dd>
+    </dl>
+</div>
+
+<hr/>
+<div>
+    <p>
+        <strong>How to Read this Reservation Receipt</strong>
+    </p>
+    <p>
+        - Stay Price is the total daily price charged for your reservation.
+    </p>
+    <p>
+        - Subtotal is the sum of the total daily price and the cleaning fee.
+    </p>
+    <p>
+        - Reservation Total is the total price charged to your card for this reservation. This includes the total price, cleaning fee, and any discounts applied to your reservation.
+    </p>
+</div>
+<hr/>
+<div>
+    <a asp-action="Details" asp-controller="Orders" asp-route-id="@Model.Order.OrderID" class="btn btn-secondary">See Order Details</a>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Reservations" class="btn btn-outline-primary mt-3">Back to Reservations</a>
+</div>

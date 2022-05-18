@@ -1,0 +1,145 @@
+@model fa21team9finalproject.Models.Property
+
+@{ ViewData["Title"] = "List New Property"; }
+
+<h1>@ViewBag.Title.</h1>
+
+<p>
+    Fill in the new property's information below to create a new listing.
+</p>
+
+<hr />
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StreetAddress" class="control-label"></label>
+                <input asp-for="StreetAddress" class="form-control" />
+                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="AptNum" class="control-label"></label>
+                <input asp-for="AptNum" class="form-control" />
+                <span asp-validation-for="AptNum" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select asp-for="State" asp-items="Html.GetEnumSelectList<StateList>()" class="form-control">
+                    <option selected="selected" value="">Select State</option>
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">Category</label>
+                @Html.DropDownList("SelectedCategory", (SelectList)ViewBag.AllCategories, new { @class = "form-control" })
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="PricePerWeekday" class="control-label"></label>
+                <input asp-for="PricePerWeekday" class="form-control" />
+                <span asp-validation-for="PricePerWeekday" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="PricePerWeekend" class="control-label"></label>
+                <input asp-for="PricePerWeekend" class="form-control" />
+                <span asp-validation-for="PricePerWeekend" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="NumberGuests" class="control-label"></label>
+                <input asp-for="NumberGuests" class="form-control" />
+                <span asp-validation-for="NumberGuests" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="NumberBed" class="control-label"></label>
+                <input asp-for="NumberBed" class="form-control" />
+                <span asp-validation-for="NumberBed" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="NumberBath" class="control-label"></label>
+                <input asp-for="NumberBath" class="form-control" />
+                <span asp-validation-for="NumberBath" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="PetsAllowed" class="control-label"></label>
+                <select asp-for="PetsAllowed" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="">Select Pet Allowance</option>
+                </select>
+                <span asp-validation-for="PetsAllowed" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="FreeParking" class="control-label"></label>
+                <select asp-for="FreeParking" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="">Select Free Parking Availability</option>
+                </select>
+                <span asp-validation-for="FreeParking" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="CleaningFee" class="control-label"></label>
+                <input asp-for="CleaningFee" class="form-control" />
+                <span asp-validation-for="CleaningFee" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="DiscountDays" class="control-label"></label>
+                <input asp-for="DiscountDays" class="form-control" />
+                <span asp-validation-for="DiscountDays" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>
+

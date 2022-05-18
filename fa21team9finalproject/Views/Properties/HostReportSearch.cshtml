@@ -1,0 +1,233 @@
+﻿@model fa21team9finalproject.Models.PropertySearchViewModel
+
+@{
+    ViewData["Title"] = "PropertySearch";
+}
+
+<h1>Host Report Search Criteria.</h1>
+
+
+<p>
+    Filter through your properties for a specified report.
+</p>
+
+
+<p>
+    To search less than, leave minimum value empty. To search greater than, leave maximum value empty.
+</p>
+
+<hr />
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<!--user can search by city, state, guest ratings, num guests, daily price, category, num bedrooms, num bathrooms, pets, free parking-->
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="HostReportSearch" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!--search by check in date-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by Check-In Date</strong></label>
+                <input asp-for="SearchCheckIn" class="form-control" />
+                <span asp-validation-for="SearchCheckIn" class="text-danger"></span>
+            </div>
+            </br>
+
+            <!--search by check out date-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by Check-Out Date</strong></label>
+                <input asp-for="SearchCheckOut" class="form-control" />
+                <span asp-validation-for="SearchCheckOut" class="text-danger"></span>
+            </div>
+            </br>
+
+            <!--search by city-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by City</strong></label>
+                <input asp-for="SearchCity" class="form-control" />
+                <span asp-validation-for="SearchCity" class="text-danger"></span>
+            </div>
+            </br>
+
+            <!--creates drop down menu for State-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by State</strong></label>
+                <select asp-for="SearchState" asp-items="Html.GetEnumSelectList<StateList>()" class="form-control">
+                    <option selected="selected" value="">All States</option>
+                </select>
+                <span asp-validation-for="SearchState" class="text-danger"></span>
+            </div>
+            </br>
+
+            <!--Can search average rating min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Average Guest Rating</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchGuestRatingMin" class="form-control" />
+                            <span asp-validation-for="SearchGuestRatingMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchGuestRatingMax" class="form-control" />
+                            <span asp-validation-for="SearchGuestRatingMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            </br>
+
+            <!--Can search guest limit min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Guest Limit</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchNumGuestsMin" class="form-control" />
+                            <span asp-validation-for="SearchNumGuestsMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchNumGuestsMax" class="form-control" />
+                            <span asp-validation-for="SearchNumGuestsMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </br>
+
+            <!--Can search weekend price limit min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Weekend Price</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchWeekendPriceMin" class="form-control" />
+                            <span asp-validation-for="SearchWeekendPriceMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchWeekendPriceMax" class="form-control" />
+                            <span asp-validation-for="SearchWeekendPriceMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </br>
+
+            <!--Can search weekday price limit min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Weekday Price</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchWeekdayPriceMin" class="form-control" />
+                            <span asp-validation-for="SearchWeekdayPriceMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchWeekdayPriceMax" class="form-control" />
+                            <span asp-validation-for="SearchWeekdayPriceMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+            <!--Can search bed limit min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Number of Beds</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchNumBedsMin" class="form-control" />
+                            <span asp-validation-for="SearchNumBedsMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchNumBedsMax" class="form-control" />
+                            <span asp-validation-for="SearchNumBedsMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+            <!--Can search bath limit min/max-->
+            <div display="row">
+                <label class="control-label"><strong>Search by Number of Baths</strong></label>
+                <table>
+                    <tr>
+                        <td>Minimum</td>
+                        <td>Maximum</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input asp-for="SearchNumBathsMin" class="form-control" />
+                            <span asp-validation-for="SearchNumBathsMin" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="SearchNumBathsMax" class="form-control" />
+                            <span asp-validation-for="SearchNumBathsMax" class="text-danger"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+            <!--creates drop down menu for Categroy-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by Category</strong></label>
+                @Html.DropDownList("SelectedCategory", (SelectList)ViewBag.AllCategories, new { @class = "form-control" })
+            </div>
+            <br />
+
+            <!--creates checkbox for Pets allowed-->
+            <div class="form-group">
+                <label class="control-label"><strong>Allows Pets?</strong></label>
+                <select asp-for="SearchPetsAllowed" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="">Select Pet Allowance</option>
+                </select>
+                <span asp-validation-for="SearchPetsAllowed" class="text-danger"></span>
+            </div>
+            <br />
+
+            <!--creates checkbox for Pets allowed-->
+            <div class="form-group">
+                <label class="control-label"><strong>Has Free Parking?</strong></label>
+                <select asp-for="SearchFreeParking" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="">Select Free Parking Availability</option>
+                </select>
+                <span asp-validation-for="SearchFreeParking" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>
+

@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!-- TODO: update this to match project requirements. Right now, just copied from Brittany's HW5 project-->
+
+<h1>Welcome to BevoBnB!</h1>
+<h6>
+    <!-- TODO: [EXTRA] we can create a different tagline and insert it here -->
+    We make finding vacation housing easy, so you can focus on the fun.
+</h6>
+<hr />
+<p class="mt-3">Choose an action below to get started.</p>
+
+<!-- TODO: update this to match project requirements. Right now, just copied from Brittany's HW5 project-->
+
+<a asp-controller="Properties" asp-action="Index" class="btn btn-primary mb-3">View Properties</a>
+
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Customer"))
+    {
+        <a asp-controller="PropertyReviews" asp-action="Details" class="btn btn-info mb-3">My Property Reviews</a>
+
+        <a asp-controller="Reservations" asp-action="Index" class="btn btn-secondary mb-3">View Reservations</a>
+    }
+
+    @if (User.IsInRole("Host"))
+    {
+        <!--TODO: hosts can 1)create properties, 2)dispute review, 3)cancel reservations, 4)host reports-->
+        <a asp-controller="Properties" asp-action="Create" class="btn btn-info mb-3">List a New Property</a>
+
+        <a asp-controller="Reservations" asp-action="Index" class="btn btn-secondary mb-3">See Reservations</a>
+
+        <a asp-controller="Properties" asp-action="HostReport" class="btn btn-dark mb-3">View Host Report</a>
+    }
+
+    @if (User.IsInRole("Admin"))
+    {
+        <!--TODO: admin can 1)manage users, 2)make reservations, 3)add property categories, 4)resolve review disputes, 5)admin reports-->
+        <a asp-controller="RoleAdmin" asp-action="ApproveProperties" class="btn btn-secondary mb-3">Approve New Properties</a>
+
+        <a asp-controller="Categories" asp-action="Create" class="btn btn-info mb-3">Add New Category</a>
+
+        <a asp-controller="PropertyReviews" asp-action="DetailsAdmin" class="btn btn-info mb-3">View Review Disputes</a>
+
+        <a asp-controller="RoleAdmin" asp-action="Index" class="btn btn-warning mb-3">Manage Users</a>
+
+        <a asp-controller="Properties" asp-action="AdminReport" class="btn btn-dark mb-3">View Admin Report</a>
+    }
+}

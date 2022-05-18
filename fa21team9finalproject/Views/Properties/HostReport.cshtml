@@ -1,0 +1,149 @@
+﻿@model fa21team9finalproject.Models.HostReportViewModel
+
+@{
+    ViewData["Title"] = "HostReport";
+}
+
+<h1>Host Report.</h1>
+<p>
+    View a report of your property listings and revenue below.
+</p>
+<hr/>
+<!--button for detailed search and -->
+<a asp-action="HostReportSearch" class="btn btn-primary">Detailed Search</a>
+<div>
+    <hr />
+
+    <h4>Report Details</h4>
+    <dl class="row">
+        <p class="text-primary">This report includes @Model.CompletedReservations reservations out of the total @ViewBag.AllReservations reservations made on your properties.</p>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalDailyPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalDailyPrice)
+        </dd>
+        <dt class="col-sm-2">
+            Number of Reservations in Report
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompletedReservations)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalHostDiscount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalHostDiscount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalStayRevenue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalStayRevenue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalHostStayRevenue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalHostStayRevenue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalCleaningFees)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalCleaningFees)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HostPayout)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HostPayout)
+        </dd>
+    </dl>
+</div>
+<hr/>
+<h4>Detailed Information per Property</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Full Address
+            </th>
+            <th>
+                Total Stay Revenue
+            </th>
+            <th>
+                Total Cleaning Fees
+            </th>
+            <th>
+                Total Discount
+            </th>
+            <th>
+                Number of Reservations on Property
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.IndividualPropertyReports)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.property.FullAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pTotalStayRevenue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pTotalCleaningFees)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pTotalDiscount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pCompletedReservations)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.property.PropertyID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br/>
+<hr/>
+<p>
+    <strong>How to Read the Host Report</strong>
+<p />
+
+<p>
+    - Total Daily Price shows the total daily price of reservations made on your properties.
+<p />
+
+<p>
+    - Total Discount shows the total amount of discounts offered to customers.
+<p />
+
+<p>
+    - Total Stay Revenue shows the total amount charged to customers for their stay. This is the Total Daily Price charged minus Total Discounts offered.
+<p />
+
+<p>
+    - Total Host Stay Revenue is the total amount you get to keep of the Total Stay Revenue. BevoBnB charges a small commission of 10%. This means you get to keep 90% of the rental fees charged to guests! (The largest cut in our industry)
+<p />
+
+<p>
+    - Total Cleaning Fees are the total cleaning fees charged. You get to keep 100% of any cleaning fee listed for all properties.
+<p />
+
+<p>
+    - Total Payout is the total amount that you will be receiving from BevoBnB for reservations on your properties.
+</p>
+
+<p>
+    - This report includes any active reservation made on your property. Thus, both upcoming and past. Note that if a member cancels their reservation within the cancellation period, your revenue will change.
+<p />
+
+<div>
+    <a asp-action="Index" asp-controller="Properties" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>

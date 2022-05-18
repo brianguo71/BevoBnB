@@ -1,0 +1,118 @@
+﻿@model ApprovePropertiesModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewBag.Title = "Edit Approval of Properties";
+}
+
+<h1>Review Property Listings.</h1>
+<hr />
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+
+    <button type="submit" class="btn btn-success mt-3 mb-3">Save</button>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary mt-3 mb-3">Cancel</a>
+    <hr/>
+    <div class="panel panel-primary mt-3">
+        <div class="panel-heading"><strong>Listings to Approve</strong></div>
+
+        <table class="table table-striped">
+            @if (Model.NotApprovedProperties.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">No Property Listings to Review</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-primary">Full Address</th>
+                    <th class="text-primary">Category</th>
+                    <th class="text-primary">Weekday Price</th>
+                    <th class="text-primary">Weekend Price</th>
+                    <th class="text-primary">Guest Limit</th>
+                    <th class="text-primary">Number of Beds</th>
+                    <th class="text-primary">Number of Baths</th>
+                    <th class="text-primary">Pets Allowed?</th>
+                    <th class="text-primary">Free Parking?</th>
+                    <th class="text-primary">Approve?</th>
+                </tr>
+                @foreach (Property property in Model.NotApprovedProperties)
+                {
+                    <tr>
+                        <td>@property.FullAddress</td>
+                        <td>@property.Category.CategoryName</td>
+                        <td>$@property.PricePerWeekday</td>
+                        <td>$@property.PricePerWeekend</td>
+                        <td>@property.NumberGuests</td>
+                        <td>@property.NumberBed</td>
+                        <td>@property.NumberBath</td>
+                        <td>@property.PetsAllowed</td>
+                        <td>@property.FreeParking</td>
+                        <td>
+                            <input type="checkbox" name="IdsApproved" value="@property.PropertyID" />
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <br />
+
+    <div class="panel panel-primary mt-3">
+        <div class="panel-heading"><strong>Previously Approved Listings</strong></div>
+
+        <table class="table table-striped">
+            @if (Model.ApprovedProperties.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">No Property Listing Approved Yet</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-primary">Full Address</th>
+                    <th class="text-primary">Category</th>
+                    <th class="text-primary">Weekday Price</th>
+                    <th class="text-primary">Weekend Price</th>
+                    <th class="text-primary">Guest Limit</th>
+                    <th class="text-primary">Number of Beds</th>
+                    <th class="text-primary">Number of Baths</th>
+                    <th class="text-primary">Pets Allowed?</th>
+                    <th class="text-primary">Free Parking?</th>
+                    <th class="text-primary">Remove Approval?</th>
+                </tr>
+                @if (Model.ApprovedProperties.Count() > 0)
+                {
+                    @foreach (Property property in Model.ApprovedProperties)
+                    {
+                        <tr>
+                            <td>@property.FullAddress</td>
+                            <td>@property.Category.CategoryName</td>
+                            <td>$@property.PricePerWeekday</td>
+                            <td>$@property.PricePerWeekend</td>
+                            <td>@property.NumberGuests</td>
+                            <td>@property.NumberBed</td>
+                            <td>@property.NumberBath</td>
+                            <td>@property.PetsAllowed</td>
+                            <td>@property.FreeParking</td>
+                            <td>
+                                <input type="checkbox" name="IdsNotApproved" value="@property.PropertyID" />
+                            </td>
+                        </tr>
+                    }
+                }
+
+            }
+        </table>
+    </div>
+}
+
+
+
+

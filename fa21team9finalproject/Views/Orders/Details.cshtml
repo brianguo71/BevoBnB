@@ -1,0 +1,180 @@
+﻿@model fa21team9finalproject.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Order Details.</h1>
+<hr />
+@if (Model.Status == oStatus.InProgress)
+{
+    <p>
+        <a asp-action="Create" asp-controller="Orders" asp-route-oid="@Model.OrderID" class="btn btn-warning">Confirm Order</a>
+    </p>
+}
+
+<div>
+    <dl class="row">
+        @if (Model.Status == oStatus.InProgress)
+        {
+            <dt class="col-sm-2">
+                Today's Date
+            </dt>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                Order Date
+            </dt>
+        }
+
+        <dd class="col-sm-10">
+            @DateTime.Today.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Order Status
+        </dt>
+        <dd class="col-sm-10">
+            <!--TODO: Need to come back and clean this up, may not want to display status-->
+            @ViewBag.Status
+        </dd>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <dt class="col-sm-2">
+                Customer
+            </dt>
+            <dd class="col-sm-10">
+                @Model.User.Email
+            </dd>
+        }
+
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary">Back to Home</a>
+</div>
+
+<hr/>
+
+<h5>Reservations in this Order</h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Full Address</th>
+            <th>Number of Guests</th>
+            <th>Stay Price</th>
+            <th>Cleaning Fee</th>
+            <th>Discount</th>
+            <th>Individual Reservation Total</th>
+        </tr>
+    </thead>
+    @if (Model.Status == oStatus.InProgress)
+    {
+        <tbody>
+            @foreach (Reservation r in Model.Reservations.Where(r => r.Status == rStatus.Pending))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(ModelItem => r.CheckInDate)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.CheckOutDate)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.Property.FullAddress)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.NumberOfGuests)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.TotalPrice)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.CleaningFee)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.Discount)</td>
+                    <td>@Html.DisplayFor(ModelItem => r.ReservationTotal)</td>
+                </tr>
+            }
+        </tbody>
+    }
+
+    @if (Model.Status == oStatus.Confirmed)
+    {
+        @foreach (Reservation r in Model.Reservations.Where(r => r.Status == rStatus.Active))
+        {
+            <tr>
+                <td>@Html.DisplayFor(ModelItem => r.CheckInDate)</td>
+                <td>@Html.DisplayFor(ModelItem => r.CheckOutDate)</td>
+                <td>@Html.DisplayFor(ModelItem => r.Property.FullAddress)</td>
+                <td>@Html.DisplayFor(ModelItem => r.NumberOfGuests)</td>
+                <td>@Html.DisplayFor(ModelItem => r.TotalPrice)</td>
+                <td>@Html.DisplayFor(ModelItem => r.CleaningFee)</td>
+                <td>@Html.DisplayFor(ModelItem => r.Discount)</td>
+                <td>@Html.DisplayFor(ModelItem => r.ReservationTotal)</td>
+            </tr>
+        }
+    }
+
+</table>
+
+<br />
+<hr/>
+
+<h5>Order Summary</h5>
+<table class="table table-sm table-bordered" style="width:30%">
+    <tr>
+        <td>Total Stay Price:</td>
+        <td>@Html.DisplayFor(model => model.TotalStayPrice)</td>
+    </tr>
+    <tr>
+        <td>Total Cleaning Fee:</td>
+        <td>@Html.DisplayFor(model => model.CleaningFeeTotal)</td>
+    </tr>
+    <tr>
+        <td>Total Discount:</td>
+        <td>@Html.DisplayFor(model => model.TotalDiscount)</td>
+    </tr>
+    <tr>
+        <td>Order Subtotal:</td>
+        <td>@Html.DisplayFor(model => model.Subtotal)</td>
+    </tr>
+    <tr>
+        <td>Sales Tax:</td>
+        <td>@Html.DisplayFor(model => model.SalesTax)</td>
+    </tr>
+    <tr>
+        <td>Order Total:</td>
+        <td>@Html.DisplayFor(model => model.GrandTotal)</td>
+    </tr>
+
+</table>
+<br/>
+<hr/>
+
+<div>
+    <p>
+        <strong>How to Read the Reservation Receipts</strong>
+    </p>
+    <p>
+        - Stay Price is the total daily price charged for the reservation.
+    </p>
+    <p>
+        - Subtotal is the sum of the total daily price and the cleaning fee.
+    </p>
+    <p>
+        - Reservation Total is the total price charged to your card for this reservation. This includes the total price, cleaning fee, and any discounts applied to your reservation.
+    </p>
+</div>
+
+<div>
+    <p>
+        <strong>How to Read the Order Summary</strong>
+    </p>
+    <p>
+        - Total Stay Price is the total daily price charged for all reservations in this order.
+    </p>
+    <p>
+        - Order Subtotal is the sum of the total daily price and the cleaning fee for all reservations in this order.
+    </p>
+    <p>
+        - Reservation Total is the total price charged to your card for this reservation. This includes the total price, cleaning fee, and any discounts applied to your reservation.
+    </p>
+    <p>
+        - Sales tax is calculated from the Total Stay Price plus the Cleaning Fee.q
+    </p>
+    <p>
+        - Reservation Total is the total price charged to your card for this reservation. This includes the total price, cleaning fee, and any discounts applied to your reservation.
+    </p>
+</div>

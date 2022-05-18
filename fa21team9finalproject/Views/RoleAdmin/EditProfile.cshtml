@@ -1,0 +1,52 @@
+﻿@model IndexViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewBag.Title = "Edit User Profile";
+}
+
+<h1>@ViewBag.Title.</h1>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Name:</dt>
+        <dd>
+            @Model.FullName
+            <br />
+            [@Html.ActionLink("Change Name", "ChangeName", "Account", new { id = Model.Email })]
+        </dd>
+
+        <dt>User Name:</dt>
+        <dd>@Model.UserName</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Password:</dt>
+        <dd>
+           [@Html.ActionLink("Change password", "AdminChangePassword", "Account", new { id = Model.Email })]
+        </dd>
+
+        <dt>Address:</dt>
+        <dd>
+            @Model.FullAddress
+            <br />
+            [@Html.ActionLink("Change address", "ChangeAddress", "Account", new { id = Model.Email })]
+        </dd>
+
+        <dt>Phone Number:</dt>
+        <dd>
+            @Model.PhoneNumber
+            <br />
+            [@Html.ActionLink("Change phone number", "ChangePhoneNumber", "Account", new { id = Model.Email })]
+        </dd>
+
+        <dt>Birthday:</dt>
+        <dd>
+            @Model.Birthday.ToShortDateString()
+            <br />
+            [@Html.ActionLink("Change birthday", "ChangeBirthday", "Account", new { id = Model.Email })]
+        </dd>
+    </dl>
+</div>

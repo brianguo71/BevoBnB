@@ -1,0 +1,35 @@
+﻿<h2>Press these buttons to seed your roles and users!</h2>
+
+<p>seed base roles and users</p>
+<a asp-action="SeedRoles" asp-controller="Seed" class="btn btn-primary">Seed Roles</a>
+
+<a asp-action="SeedPeople" asp-controller="Seed" class="btn btn-info">Seed Base Users</a>
+<hr/>
+
+<p></p>
+<p>first seed all users</p>
+<a asp-action="SeedAdmins" asp-controller="Seed" class="btn btn-primary">Seed Admins</a>
+
+<a asp-action="SeedCustomers" asp-controller="Seed" class="btn btn-info">Seed Customers</a>
+
+<a asp-action="SeedHosts" asp-controller="Seed" class="btn btn-primary">Seed Hosts</a>
+
+<hr />
+
+<p>next seed all categories and properties</p>
+<a asp-action="SeedCategories" asp-controller="Seed" class="btn btn-primary">Seed Categories</a>
+
+<a asp-action="SeedProperties" asp-controller="Seed" class="btn btn-info">Seed Properties</a>
+
+<hr />
+<p>next seed orders </p>
+<a asp-action="SeedOrders" asp-controller="Seed" class="btn btn-primary">Seed Orders</a>
+
+<hr />
+<p>seed all past then future reservations</p>
+<a asp-action="SeedPastReservations" asp-controller="Seed" class="btn btn-primary">Seed Past Reservations</a>
+
+<strong class="text-secondary">WE NEED TO MANUALLY INPUT FUTURE RESERVATIONS</strong>
+<hr />
+<p>finally, seed property reviews</p>
+<a asp-action="SeedReviews" asp-controller="Seed" class="btn btn-primary">Seed Property Reviews</a>

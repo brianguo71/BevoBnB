@@ -1,0 +1,65 @@
+﻿@model fa21team9finalproject.Models.AppUser
+
+@{
+    ViewData["Title"] = "Change Name";
+}
+
+<h1>@ViewBag.Title.</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ChangeName" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="PhoneNumber" />
+            <input type="hidden" asp-for="StreetAddress" />
+            <input type="hidden" asp-for="City" />
+            <input type="hidden" asp-for="State" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="Birthday" />
+            <input type="hidden" asp-for="IsActive" />
+            <div class="form-group">
+                <p>
+                    You are making changes to <strong>@Html.DisplayFor(Model => Model.FullName, new { @class = "form-control" })</strong>'s profile.
+                </p>
+            </div>
+
+            <div class="form-group text-info">
+                <label class="control-label"><strong>Current Name:</strong></label>
+                @Html.DisplayFor(Model => Model.FullName, new { @class = "form-control" })
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">New First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">New Middle Initial</label>
+                <input asp-for="MI" class="form-control" />
+                <span asp-validation-for="MI" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">New Last Name</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Update Name" class="btn btn-primary" />
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary mt-3">Back to Home</a>
+</div>

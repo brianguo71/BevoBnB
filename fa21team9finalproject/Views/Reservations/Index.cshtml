@@ -1,0 +1,352 @@
+﻿@model ReservationIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>View Reservations.</h1>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+{
+    <p>
+        View your reservation history below.
+    </p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    <p>
+        View all reservations made on your properties below.
+    </p>
+}
+<hr />
+
+<div class="text-primary">@ViewBag.Message</div>
+@Html.ValidationSummary()
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+{
+    @if (Model.Pending.Count() > 0)
+    {
+        <!--button to go to order index page that shows details of reservations in cart-->
+        <a asp-controller="Orders" asp-action="Details" asp-route-id="@Model.OrderID" class="btn btn-warning">Checkout</a>
+    }
+    @if (Model.Pending.Count() == 0)
+    {
+        <!--button to go to properties to add a thing to cart-->
+        <a asp-controller="Properties" asp-action="Index" class="btn btn-primary">View Properties</a>
+    }
+
+    <!--brings user to page of all their property reviews-->
+    <a asp-controller="PropertyReviews" asp-action="Details" class="btn btn-info">My Property Reviews</a>
+
+    <hr />
+
+    @using (Html.BeginForm("Delete", "Reservations", FormMethod.Post))
+    {
+        <div class="panel panel-primary mt-3">
+            <!--states what the list will be about based on role being edited-->
+            <div class="panel-heading"><strong>Reservations in Cart</strong></div>
+
+            <table class="table table-striped">
+                @if (Model.Pending.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="3">No pending reservation exists. Cart is empty.</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th class="text-primary">Reservation ID</th>
+                        <th class="text-primary">Property Address</th>
+                        <th class="text-primary">Check-in Date</th>
+                        <th class="text-primary">Check-out Date</th>
+                        <th class="text-primary">Guest Number</th>
+                        <th class="text-primary">Remove from Cart?</th>
+                        <th></th>
+                    </tr>
+                    foreach (Reservation reservation in Model.Pending)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationID</td>
+                            <td>@reservation.Property.FullAddress</td>
+                            <td>@reservation.CheckInDate.ToShortDateString()</td>
+                            <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                            <td>@reservation.NumberOfGuests</td>
+                            <td>
+                                <input type="checkbox" name="IdsToCancel" value="@reservation.ReservationID" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        @if (Model.Pending.Count() != 0)
+        {
+            <button type="submit" class="btn btn-secondary mt-3 mb-3">Remove Reservations</button>
+        }
+    }
+    <hr />
+}
+
+<!--this section shows host unavailabilities for their properties and allows them to delete the unavailability-->
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    @using (Html.BeginForm("Delete", "Reservations", FormMethod.Post))
+    {
+        <div class="panel panel-primary mt-3">
+            <!--states what the list will be about based on role being edited-->
+            <div class="panel-heading"><strong>Property Unavailabilities</strong></div>
+
+            <table class="table table-striped">
+                @if (Model.Unavailable.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="3">All of your properties are active for the BevoBnB community to see!</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th class="text-primary">Reservation ID</th>
+                        <th class="text-primary">Property Address</th>
+                        <th class="text-primary">Check-in Date</th>
+                        <th class="text-primary">Check-out Date</th>
+                        <th class="text-primary">Delete Unavailability?</th>
+                        <th></th>
+                    </tr>
+                    foreach (Reservation reservation in Model.Unavailable)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationID</td>
+                            <td>@reservation.Property.FullAddress</td>
+                            <td>@reservation.CheckInDate.ToShortDateString()</td>
+                            <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                            <td>
+                                <input type="checkbox" name="IdsToCancel" value="@reservation.ReservationID" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        @if (Model.Unavailable.Count() != 0)
+        {
+            <button type="submit" class="btn btn-secondary mt-3 mb-3">Delete Unavailabilities</button>
+        }
+        <hr />
+    }
+}
+
+@using (Html.BeginForm("Cancel", "Reservations", FormMethod.Post))
+{
+    <input type="hidden" name="Email" value="@Model.User.Email" />
+
+    <div class="panel panel-primary mt-3">
+        <!--subheading of this section-->
+        <div class="panel-heading"><strong>Upcoming Reservations</strong></div>
+
+        <table class="table table-striped">
+            @if (Model.Upcoming.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">No reservation is scheduled for the future.</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-primary">Reservation ID</th>
+                    <th class="text-primary">Property Address</th>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                    {
+                        <th class="text-primary">BevoBnB Guest</th>
+                    }
+                    <th class="text-primary">Check-in Date</th>
+                    <th class="text-primary">Check-out Date</th>
+                    <th class="text-primary">Guest Number</th>
+                    <!--there needs to be option to cancel upcoming reservations-->
+                    <th class="text-primary">Cancel?</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                foreach (Reservation reservation in Model.Upcoming)
+                {
+        <tr>
+            <td>@reservation.ReservationID</td>
+            <td>@reservation.Property.FullAddress</td>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+            {
+                @if (reservation.Order != null)
+                {
+                    <td>@reservation.Order.User.Email</td>
+                }
+            }
+            <td>@reservation.CheckInDate.ToShortDateString()</td>
+            <td>@reservation.CheckOutDate.ToShortDateString()</td>
+            <td>@reservation.NumberOfGuests</td>
+            @if ((reservation.CheckInDate - DateTime.Today).TotalDays > 1)
+            {
+                <td>
+                    <input type="checkbox" name="IdsToCancel" value="@reservation.ReservationID" />
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @if (Model.Upcoming.Count() > 0 && (User.Identity.IsAuthenticated && User.IsInRole("Customer")))
+            {
+                <td>
+                    @Html.ActionLink("Details", "Details", "Reservations", new { id = reservation.ReservationID }, new { @class = "btn btn-info" })
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+        </tr>
+                }
+            }
+        </table>
+    </div>
+    @if (Model.Upcoming.Count() != 0)
+    {
+        <button type="submit" class="btn btn-secondary mt-3 mb-3">Cancel Reservations</button>
+    }
+
+}
+<hr />
+
+<div class="panel panel-primary mt-3">
+    <!--states what the list will be about based on role being edited-->
+    <div class="panel-heading"><strong>Cancelled Reservations</strong></div>
+
+    <table class="table table-striped">
+        @if (Model.Cancelled.Count() == 0)
+        {
+            <tr>
+                <td colspan="3">No cancelled reservation exists.</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <th class="text-primary">Reservation ID</th>
+                <th class="text-primary">Property Address</th>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                {
+                    <th class="text-primary">BevoBnB Guest</th>
+                }
+                <th class="text-primary">Check-in Date</th>
+                <th class="text-primary">Check-out Date</th>
+                <th class="text-primary">Guest Number</th>
+                <th></th>
+            </tr>
+            foreach (Reservation reservation in Model.Cancelled)
+            {
+                <tr>
+                    <td>@reservation.ReservationID</td>
+                    <td>@reservation.Property.FullAddress</td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                    {
+                        <td>@reservation.Order.User.Email</td>
+                    }
+                    <td>@reservation.CheckInDate.ToShortDateString()</td>
+                    <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                    <td>@reservation.NumberOfGuests</td>
+                    <!--option to rebook cancelled reservation-->
+                    <!--PropertyID is passed through. From there, user chooses dates and guest limit again.-->
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Customer") && reservation.Property.Status == pStatus.Active)
+                    {
+                        <td>
+                            @Html.ActionLink("Rebook", "Create", "Reservations", new { id = reservation.PropertyID }, new { @class = "btn btn-info" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
+
+            }
+        }
+    </table>
+</div>
+<hr />
+
+<div class="panel panel-primary mt-3">
+    <!--states what the list will be about based on role being edited-->
+    <div class="panel-heading"><strong>Past Reservations</strong></div>
+
+    <table class="table table-striped">
+        @if (Model.Past.Count() == 0)
+        {
+            <tr>
+                <td colspan="3">No past reservation exists.</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <th class="text-primary">Reservation ID</th>
+                <th class="text-primary">Property Address</th>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                {
+                    <th class="text-primary">BevoBnB Guest</th>
+                }
+                <th class="text-primary">Check-in Date</th>
+                <th class="text-primary">Check-out Date</th>
+                <th class="text-primary">Guest Number</th>
+                <th></th>
+                <th></th>
+            </tr>
+            foreach (Reservation reservation in Model.Past)
+            {
+                <tr>
+                    <td>@reservation.ReservationID</td>
+                    <td>@reservation.Property.FullAddress</td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                    {
+                        <td>@reservation.Order.User.Email</td>
+                    }
+                    <td>@reservation.CheckInDate.ToShortDateString()</td>
+                    <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                    <td>@reservation.NumberOfGuests</td>
+                    <!--option to review a past reservation-->
+                    <!--PropertyID is passed through. From there, user chooses dates and guest limit again.-->
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                    {
+                        <td>
+                            @Html.ActionLink("Review Property", "Create", "PropertyReviews", new { id = reservation.PropertyID }, new { @class = "btn btn-secondary" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (Model.Past.Count() > 0 && (User.Identity.IsAuthenticated && User.IsInRole("Customer")))
+                    {
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Reservations", new { id = reservation.ReservationID }, new { @class = "btn btn-info" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary mt-3">Back to Home</a>
+</div>
+
+

@@ -1,0 +1,98 @@
+@model IEnumerable<fa21team9finalproject.Models.Property>
+
+@{ ViewData["Title"] = "Deleted Listings"; }
+
+<h1>@ViewBag.Title.</h1>
+<hr />
+
+<!--any user can see the property listings-->
+<table class="table">
+    <thead>
+        @if (Model.Count() > 0)
+        {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricePerWeekday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricePerWeekend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberBed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberBath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberGuests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetsAllowed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FreeParking)
+            </th>
+            <th></th>
+
+        </tr>
+        }
+
+                </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerWeekday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerWeekend)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberBed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberBath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberGuests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PetsAllowed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FreeParking)
+                </td>
+                <td>
+                <a asp-action="Reactivate" asp-route-id="@item.PropertyID">Reactivate</a>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    @ViewBag.noResults
+</p>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to Property Listings</a>
+</div>
+

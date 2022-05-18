@@ -1,0 +1,51 @@
+﻿@model fa21team9finalproject.Models.PropertyReview
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Dispute a Review.</h1>
+<hr/>
+<p>
+    You are making a dispute for the following review:
+</p>
+
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Rating</dt>
+        <dd>@Model.Rating</dd>
+
+        <dt>Comment</dt>
+        <dd>@Model.Review</dd>
+    </dl>
+</div>
+
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DisputeHost">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PropertyReviewID"/>
+            <input type="hidden" asp-for="Rating"/>
+            <input type="hidden" asp-for="Review"/>
+            <div class="form-group">
+                <label asp-for="Dispute" class="control-label">Leave a comment with your dispute below.</label>
+                <input asp-for="Dispute" class="form-control" />
+                <span asp-validation-for="Dispute" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Submit Dispute" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--send host back to reviews for the specific property if they want to go back-->
+<div>
+    <a asp-action="Index" asp-controller="Properties" class="btn btn-outline-primary mt-3">Back to Properties</a>
+</div>
+

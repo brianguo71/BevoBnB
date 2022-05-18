@@ -1,0 +1,79 @@
+﻿@model IndexViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewBag.Title = "Account Profile";
+}
+
+<h1>@ViewBag.Title.</h1>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Name:</dt>
+        <dd>
+            @Model.FullName
+            @if (User.IsInRole("Admin"))
+            {
+                <p>
+                    [@Html.ActionLink("Change name", "ChangeName", new { id = Model.Email })]
+                </p>
+            }
+        </dd>
+
+        <dt>User Name:</dt>
+        <dd>@Model.UserName</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Password:</dt>
+        <dd>
+            @if (User.IsInRole("Customer") || User.IsInRole("Host"))
+            {
+                <p>
+                    [@Html.ActionLink("Change password", "ChangePassword")]
+                </p>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <p>
+                    [@Html.ActionLink("Change name", "AdminChangePassword", new { id = Model.Email })]
+                </p>
+            }
+        </dd>
+
+        <!--hosts and customers can change address, phone number, and birthday-->
+        <dt>Address:</dt>
+        <dd>
+            @Model.FullAddress
+            <br />
+            [@Html.ActionLink("Change address", "ChangeAddress", new { id = Model.Email })]
+        </dd>
+
+        <dt>Phone Number:</dt>
+        <dd>
+            @Model.PhoneNumber
+            <br />
+            [@Html.ActionLink("Change phone number", "ChangePhoneNumber", new { id = Model.Email })]
+        </dd>
+
+        <dt>Birthday:</dt>
+        <dd>
+            @Model.Birthday.ToShortDateString()
+            <br />
+            [@Html.ActionLink("Change birthday", "ChangeBirthday", new { id = Model.Email })]
+        </dd>
+        <dd>
+            @if (User.IsInRole("Host"))
+            {
+                @Html.ActionLink("Delete Account", "HostDeleteAccount", new { id = Model.Email }, new { @class = "btn btn-secondary mt-3" })
+            }
+            @if (User.IsInRole("Customer"))
+            {
+                @Html.ActionLink("Delete Account", "CustomerDeleteAccount", new { id = Model.Email }, new { @class = "btn btn-secondary mt-3" })
+            }
+
+        </dd>
+        </dl>
+</div>

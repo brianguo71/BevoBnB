@@ -1,0 +1,15 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register a New User.</h1>
+<p>
+    Please choose the type of account you would like to register for below.
+</p>
+<hr />
+
+<a asp-controller="Account" asp-action="RegisterCustomer" class="btn btn-primary">Create Customer Account</a>
+
+<a asp-controller="Account" asp-action="RegisterHost" class="btn btn-secondary">Create Host Account</a>

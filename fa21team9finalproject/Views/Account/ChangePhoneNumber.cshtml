@@ -1,0 +1,53 @@
+﻿@model fa21team9finalproject.Models.AppUser
+
+@{
+    ViewData["Title"] = "Change Phone Number";
+}
+
+<h1>@ViewBag.Title.</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ChangePhoneNumber" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="StreetAddress" />
+            <input type="hidden" asp-for="City" />
+            <input type="hidden" asp-for="State" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="Birthday" />
+            <input type="hidden" asp-for="IsActive" />
+            <div class="form-group">
+                <p>
+                    You are making changes to <strong>@Html.DisplayFor(Model => Model.FullName, new { @class = "form-control" })</strong>'s profile.
+                </p>
+            </div>
+
+            <div class="form-group text-info">
+                <label class="control-label"><strong>Current Phone Number:</strong></label>
+                @Html.DisplayFor(Model => Model.PhoneNumber, new { @class = "form-control" })
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">New Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Update Phone Number" class="btn btn-primary" />
+
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary mt-3">Back to Home</a>
+</div>

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<fa21team9finalproject.Models.PropertyReview>
+
+@{
+    ViewData["Title"] = "Property Review History";
+}
+
+<h1>Property Review History.</h1>
+<p>See all your past property reviews.</p>
+<hr />
+
+<div class="panel-heading"><strong class="text-primary">Active Reviews</strong></div>
+<table class="table">
+    <thead>
+        @if (Model.Where(m => m.dStatus == disputeStatus.notViewedYet || m.dStatus == disputeStatus.Rejected).Count() > 0)
+        {
+            <tr>
+                <th>
+                    Property Address
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Review)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        }
+        @if (Model.Where(m => m.dStatus == disputeStatus.notViewedYet || m.dStatus == disputeStatus.Rejected).Count() == 0)
+        {
+            <p>
+                You have no active property reviews.
+            </p>
+        }
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(m => m.dStatus == disputeStatus.notViewedYet || m.dStatus == disputeStatus.Rejected))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property.FullAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PropertyReviewID" class="btn btn-info">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.PropertyReviewID" class="btn btn-secondary">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="panel-heading"><strong class="text-primary">Reviews in Dispute</strong></div>
+<table class="table">
+    <thead>
+        @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() > 0)
+        {
+            <tr>
+                <th>
+                    Property Address
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Review)
+                </th>
+                <th></th>
+            </tr>
+        }
+        @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() == 0)
+        {
+            <p>
+                You have no property reviews in dispute.
+            </p>
+        }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(m => m.dStatus == disputeStatus.inDispute))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property.FullAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" asp-controller="Reservations" class="btn btn-outline-primary mt-3">Back to Reservations</a>
+</div>

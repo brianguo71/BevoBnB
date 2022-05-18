@@ -1,0 +1,185 @@
+@model IEnumerable<fa21team9finalproject.Models.Property>
+@using System
+
+@{ ViewData["Title"] = "Index"; }
+
+
+<!--Hosts have option to create new listings-->
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    <h1>Your Property Listings.</h1>
+    <p>
+        View your property listings below.
+    </p>
+}
+else
+{
+    <h1>Properties.</h1>
+    <p>
+        Welcome to BevoBnB! See all our available property listings below.
+    </p>
+}
+
+<hr />
+<!--button for detailed search and -->
+<a asp-action="DetailedSearch" class="btn btn-primary">Detailed Search</a>
+
+<!--Hosts have option to create new listings-->
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    <a asp-action="Create" class="btn btn-info">Create a New Listing</a>
+
+    <a asp-action="SeeDeleted" class="btn btn-info">View Deleted Listings</a>
+
+    <a asp-action="Index" asp-controller="Reservations" class="btn btn-secondary">Reservations and Property Unavailabilities</a>
+
+    <a asp-action="HostReport" class="btn btn-dark">Host Report</a>
+}
+<hr />
+
+<div class="text-primary">@ViewBag.CreatedReservation</div>
+<!--adds the display "Displaying X out of Y Properties"-->
+<!--TODO: add these viewbags to properties controller-->
+<p>
+    Displaying @ViewBag.SelectedProperties of @ViewBag.AllProperties Properties.
+</p>
+
+<!--any user can see the property listings-->
+<table class="table">
+    <thead>
+        @if (Model.Count() > 0)
+        {
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AverageRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricePerWeekday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricePerWeekend)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberBed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberBath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberGuests)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PetsAllowed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FreeParking)
+        </th>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+        {
+    <th>
+        @Html.DisplayNameFor(model => model.Status)
+    </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApprovalStatus)
+                        </th>}
+        <!--TO DELETE LATER-->
+        <th>
+            @Html.DisplayNameFor(model => model.PropertyNumber)
+        </th>
+        <th></th>
+    </tr>}
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Host") && Model.Count() == 0)
+        {
+    <p>
+        You have no property listings yet.
+    </p>
+    }
+        @if (Model.Count() == 0 && !User.IsInRole("Host"))
+        {
+    <p>
+        There are no available listings.
+    </p>
+        }
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerWeekday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerWeekend)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberBed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberBath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberGuests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PetsAllowed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FreeParking)
+                </td>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApprovalStatus)
+                    </td>
+                }
+                <!--TO DELETE LATER-->
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyNumber)
+                </td>
+                <td>
+                    <!--anyone should be able to see details for property and any property reviews made-->
+                    <a asp-action="Details" asp-route-id="@item.PropertyID" class="text-primary">Details</a>
+                    <a asp-controller="PropertyReviews" asp-action="Index" asp-route-id="@item.PropertyID" class="text-info">Reviews</a>
+                    <!-- only hosts can edit properties -->
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.PropertyID" class="text-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.PropertyID" class="text-secondary">Delete</a>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

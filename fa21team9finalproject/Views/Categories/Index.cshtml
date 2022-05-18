@@ -1,0 +1,30 @@
+﻿@model IEnumerable<fa21team9finalproject.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categories</h1>
+<hr />
+<p>
+    <a asp-action="Create" class="btn btn-info">Create New Category</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

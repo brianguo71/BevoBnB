@@ -1,0 +1,110 @@
+﻿@model IEnumerable<fa21team9finalproject.Models.PropertyReview>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Property Reviews.</h1>
+<p>
+    See what our users have to say about the property at <strong class="text-info">@ViewBag.Property</strong>.
+</p>
+
+@if (@Model.Count() > 0)
+{
+    <p>
+        This property has an average rating of <strong class="text-info">@ViewBag.AverageRating</strong>.
+    </p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    <div class="panel-heading"><strong class="text-primary">Active Reviews</strong></div>
+}
+<table class="table">
+    <thead>
+        @if (ViewBag.noResults == null)
+        {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Review)
+            </th>
+            <th></th>
+        </tr>
+        }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(m => m.dStatus == disputeStatus.notViewedYet || m.dStatus == disputeStatus.Rejected))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <!--if the user is a host, that means the property is theirs. They are allowed to dispute reviews-->
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Host") && item.dStatus == disputeStatus.notViewedYet)
+                {
+                    <td>
+                        <a asp-action="DisputeHost" asp-controller="PropertyReviews" asp-route-id="@item.PropertyReviewID">Dispute Review</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    @ViewBag.noResults
+</p>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host") && Model.Count() > 0)
+{
+    <div class="panel-heading"><strong class="text-primary">Reviews in Dispute</strong></div>
+    <table class="table">
+        <thead>
+            @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() > 0)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rating)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Review)
+                    </th>
+                    <th></th>
+                </tr>
+            }
+
+        </thead>
+        <tbody>
+            @if (Model.Where(m => m.dStatus == disputeStatus.inDispute).Count() == 0)
+                {
+                    <p>
+                        There are no reviews in dispute for this property.
+                    </p>
+                }
+            @foreach (var item in Model.Where(m => m.dStatus == disputeStatus.inDispute))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Review)
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<div>
+    <a asp-action="Index" asp-controller="Properties" class="btn btn-outline-primary">Back to Property Listings</a>
+</div>
+

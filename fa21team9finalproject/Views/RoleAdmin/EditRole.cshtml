@@ -1,0 +1,131 @@
+﻿@model ActiveProfileEditModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewBag.Title = "Edit Activity of Users";
+}
+
+<h1>Edit Role: @Model.Role.Name</h1>
+<hr />
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+
+    // if managing admin profiles, logged in admin user should be able to hire new administrators
+    @if (Model.Role.Name == "Admin")
+    {
+        <a asp-controller="Account" asp-action="RegisterAdmin" class="btn btn-warning mt-3">Hire New Administrator</a>
+    }
+
+    <div class="panel panel-primary mt-3">
+        <!--states what the list will be about based on role being edited-->
+        @if (Model.Role.Name == "Admin")
+        {
+            <div class="panel-heading"><strong>Current Employees</strong></div>
+        }
+        else
+        {
+            <div class="panel-heading"><strong>Active @Model.Role.Name Profiles</strong></div>
+        }
+
+        <table class="table table-striped">
+            @if (Model.ActiveMembers.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">No User Exists</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-primary">First Name</th>
+                    <th class="text-primary">Last Name</th>
+                    <th class="text-primary">Email</th>
+                    <!--if viewing users in admin role, there needs to be option to fire employees-->
+                    @if (Model.Role.Name == "Admin")
+                    {
+                        <th class="text-primary">Terminate?</th>
+                        <th></th>
+                    }
+                    <th></th>
+                </tr>
+                foreach (AppUser user in Model.ActiveMembers)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.UserName</td>
+                        @if (Model.Role.Name == "Admin")
+                        {
+                            <td>
+                                <input type="checkbox" name="IdsToInactivate" value="@user.Id" />
+                            </td>
+                        }
+                        <td>
+                            @Html.ActionLink("Edit Profile", "EditProfile", new { id = user.Id }, new { @class = "btn btn-info" })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <div class="panel panel-primary mt-3">
+        <!--states what the list will be about based on role being edited-->
+        @if (Model.Role.Name == "Admin")
+        {
+            <div class="panel-heading"><strong>Terminated Employees</strong></div>
+        }
+        else
+        {
+            <div class="panel-heading"><strong>Inactive @Model.Role.Name Profiles</strong></div>
+        }
+
+        <table class="table table-striped">
+            @if (Model.InactiveMembers.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">No User Exists</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="text-primary">First Name</th>
+                    <th class="text-primary">Last Name</th>
+                    <th class="text-primary">Email</th>
+                    <!--if viewing users in admin role, there needs to be option to rehire employees-->
+                    @if (Model.Role.Name == "Admin")
+                    {
+                        <th class="text-primary">Rehire?</th>
+                    }
+                </tr>
+                foreach (AppUser user in Model.InactiveMembers)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.UserName</td>
+                        <!--NOTE: there is no button here to edit profile, because if user is inactive, no need to edit user information-->
+                        @if (Model.Role.Name == "Admin")
+                        {
+                            <td>
+                                <input type="checkbox" name="IdsToActivate" value="@user.Id" />
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3 mb-5">Save</button>
+    <a asp-action="Index" asp-controller="RoleAdmin" class="btn btn-secondary mt-3 mb-5">Cancel</a>
+}
+
+
+
+

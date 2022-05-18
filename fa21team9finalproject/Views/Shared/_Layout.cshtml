@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title >@ViewBag.Title</title>
+    <link href="~/lib/twitter-bootstrap/css/bootstrap-minty.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--This allows logo to display-->
+            <a class="navbar-brand">
+                <img style="padding-left: 20px" src="/images/houseW.png" width="65" alt="BevoBnB Logo" title="BevoBnB Logo" />
+            </a>
+
+            <div class="collapse navbar-collapse" id="nav-content">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <!--TODO: fix buttons and authorization on the buttons-->
+
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Properties" asp-action="Index" class="nav-link">Properties</a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Customer"))
+                        {
+                        <li class="nav-item">
+                            <a asp-controller="Reservations" asp-action="Index" class="nav-link">Reservations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="PropertyReviews" asp-action="Details" class="nav-link">My Property Reviews</a>
+                        </li>
+                        }
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Categories" asp-action="Index" class="nav-link">Categories</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="PropertyReviews" asp-action="DetailsAdmin" class="nav-link">Review Disputes</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="RoleAdmin" asp-action="Index" class="nav-link">Manage Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Properties" asp-action="AdminReport" class="nav-link">Admin Report</a>
+                        </li>
+                        }
+                    @if (User.IsInRole("Host"))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Reservations" asp-action="Index" class="nav-link">Reservations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Properties" asp-action="HostReport" class="nav-link">Host Report</a>
+                        </li>
+                    }               
+                    }
+                </ul>
+            </div>
+            @await Html.PartialAsync("_LoginPartial")
+        </nav>
+    </div>
+
+    <div class="container body-content mt-5">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - BevoBnB</p>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/popper.js/popper.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</body>
+</html>

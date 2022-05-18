@@ -1,0 +1,106 @@
+﻿@model fa21team9finalproject.Models.Reservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Customer")))
+{
+<h1>Create Reservation.</h1>
+}
+else
+{
+<h1>Make Property Unavailable.</h1>
+}
+
+<hr />
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="PropertyID" value="@ViewBag.PropertyID" />
+
+            <input type="hidden" asp-for="CleaningFee" />
+
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Customer")))
+            {
+                <div class="form-group">
+                    <p>
+                        You are making a reservation for the property located at <strong class="text-info">@Html.DisplayFor(Model => Model.Property.FullAddress, new { @class = "form-control" })</strong>.
+                    </p>
+                </div>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <label class="control-label">Specify Customer the Reservation Is For</label>
+                        @Html.DropDownList("email", (SelectList)ViewBag.AllCustomers, new { @class = "form-control" })
+                    </div>
+                    <br />
+                }
+                else
+                {
+                    <input type="hidden" name="email" value="" />
+                }
+
+                <div class="form-group">
+                    <label asp-for="CheckInDate" class="control-label"></label>
+                    <input asp-for="CheckInDate" class="form-control" />
+                    <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label asp-for="CheckOutDate" class="control-label"></label>
+                    <input asp-for="CheckOutDate" class="form-control" />
+                    <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label asp-for="NumberOfGuests" class="control-label"></label>
+                    <input asp-for="NumberOfGuests" class="form-control" />
+                    <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+                </div>
+                <br />
+            }
+            else
+            {
+                <input type="hidden" name="NumberOfGuests" value="1" />
+                <input type="hidden" name="email" value="" />
+
+                <div class="form-group">
+                    <p>
+                        You are creating an unavailability for the property located at <strong class="text-info">@Html.DisplayFor(Model => Model.Property.FullAddress, new { @class = "form-control" })</strong>.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Start Date of Unavailability</label>
+                    <input asp-for="CheckInDate" class="form-control" />
+                    <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label class="control-label">End Date of Unavailability</label>
+                    <input asp-for="CheckOutDate" class="form-control" />
+                    <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                </div>
+                <br />
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Properties" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>
+

@@ -1,0 +1,51 @@
+﻿<Properties StartupConfiguration="{01E8C6AC-1037-4A9F-9564-9DF9B3086ACC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="fa21team9finalproject/Views/Orders/Details.cshtml">
+    <Files>
+      <File FileName="fa21team9finalproject/Seeding/SeedCustomers.cs" Line="848" Column="4" />
+      <File FileName="fa21team9finalproject/Seeding/SeedHosts.cs" />
+      <File FileName="fa21team9finalproject/Seeding/SeedAdmins.cs" />
+      <File FileName="fa21team9finalproject/Seeding/SeedOrders.cs" />
+      <File FileName="fa21team9finalproject/Models/PropertyReview.cs" />
+      <File FileName="fa21team9finalproject/Models/Property.cs" />
+      <File FileName="fa21team9finalproject/Views/Orders/Details.cshtml" Line="175" Column="84" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="fa21team9finalproject" expanded="True">
+            <Node name="fa21team9finalproject" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="DAL" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="ViewModels" expanded="True" />
+              </Node>
+              <Node name="Seeding" expanded="True" />
+              <Node name="Utilities" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Account" expanded="True" />
+                <Node name="Categories" expanded="True" />
+                <Node name="Home" expanded="True" />
+                <Node name="Orders" expanded="True">
+                  <Node name="Details.cshtml" selected="True" />
+                </Node>
+                <Node name="Properties" expanded="True" />
+                <Node name="PropertyReviews" expanded="True" />
+                <Node name="Reservations" expanded="True" />
+                <Node name="RoleAdmin" expanded="True" />
+                <Node name="Seed" expanded="True" />
+                <Node name="Shared" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.fa21team9finalproject PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

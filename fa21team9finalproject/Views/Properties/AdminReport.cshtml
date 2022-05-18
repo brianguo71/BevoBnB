@@ -1,0 +1,63 @@
+﻿@model fa21team9finalproject.Models.AdminReportViewModel
+
+@{
+    ViewData["Title"] = "AdminReport";
+}
+
+<h1>Admin Report.</h1>
+<p>
+    View a financial report of the reservations made on BevoBnB below.
+</p>
+<hr/>
+<a asp-action="AdminReportSearch" class="btn btn-primary">Detailed Search</a>
+<div>
+    <hr />
+    <h4>Report Details</h4>
+    <dl class="row">
+        <div><p class="text-primary">This report includes @Model.BnBTotalReservations reservations out of the total @ViewBag.AllReservations reservations made on BevoBnB.</p></div>
+        <dt class="col-sm-5">
+            Total Revenue Gained
+        </dt>
+        <dd class="col-sm-12">
+            @Html.DisplayFor(model => model.BnBTotalCommission)
+        </dd>
+        <dt class="col-sm-5">
+            Total Active Reservations
+        </dt>
+        <dd class="col-sm-12">
+            @Html.DisplayFor(model => model.BnBTotalReservations)
+        </dd>
+        <dt class="col-sm-5">
+            Average Commission Gained per Reservation
+        </dt>
+        <dd class="col-sm-12">
+            @Html.DisplayFor(model => model.BnBAvgCommission)
+        </dd>
+        <dt class="col-sm-5">
+            @Html.DisplayNameFor(model => model.BnBSelectedProperties)
+        </dt>
+        <dd class="col-sm-12">
+            @Html.DisplayFor(model => model.BnBSelectedProperties)
+        </dd>
+    </dl>
+</div>
+<hr />
+<p>
+    <strong>How to Read the Admin Report</strong>
+<p />
+
+<p>
+    - Total Revenue Gained reflects the 10% commission BevoBnB collects from hosts for reservations on their properties.
+<p />
+
+<p>
+    - Total Active Reservations lists the total number of active reservations associated with this report. This can be narrowed down by day, but includes any upcoming reservations as well as past reservations. If a user or host cancels an upcoming reservation, this report will not include the reservation anymore.
+<p />
+
+<p>
+    - Average Commission Gained per Reservation is the average of the Total Revenue Gained divided by the Total Active Reservations. This number will change to only include only reservations included in the report when running a detailed search.
+<p />
+
+<div>
+    <a asp-action="Index" asp-controller="Properties" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>
